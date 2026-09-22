@@ -3,10 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reúna seus projetos e habilidades em um portfólio. Conheça o Folio.">
     <title>folio.</title>
+
     <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
 </head>
 <body>
-    <h1>Crie seu portfolio!!</h1>
+    <header class="header">
+        <a class="brand" href="index.html" aria-label="Folio — início">folio<span>.</span></a>
+        
+        <nav aria-label="Navegação principal">
+            <a class="nav-link active" href="index.html" aria-current="page">Início</a>
+            <a class="nav-link" href="sobre-voce.html">Criar portfólio</a>
+            <a class="nav-link" href="visualizar.html">Visualizar</a>
+        </nav>
+    </header>
+
+    <main id="conteudo" class="main">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="eyebrow">Seu próximo passo começa aqui</p>
+                
+                <h1 id="hero-title">Seu talento.<br>Seus projetos.<br>Seu portfólio.</h1>
+                
+                <p class="description">Reúna o que você sabe e o que já criou em um lugar com a sua cara.</p>
+                
+                <div class="actions">
+                    <a class="button button-primary" href="criar.html">Criar meu portfólio <span aria-hidden="true">→</span></a>
+                    <a class="button button-secondary" href="visualizar.html">Ver exemplo</a>
+                </div>
+                
+                <p class="helper">Sem cadastro. Comece com o que você já tem.</p>
+            </div>
+
+            <article class="portfolio-card" aria-label="Exemplo ilustrativo de portfólio de Ana Costa">
+                <p class="eyebrow">Um espaço para sua trajetória</p>
+                
+                <div class="avatar" aria-hidden="true">AC</div>
+                
+                <h2>Ana Costa</h2>
+                
+                <p class="occupation">Estudante de Engenharia de Software</p>
+                
+                <ul class="skills" aria-label="Habilidades de Ana">
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>JavaScript</li>
+                </ul>
+                
+                <div class="project-art" aria-hidden="true">
+                    <div class="project-mini">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="project-mini purple">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                
+                <h3>Ideias que viram projetos.</h3>
+                
+                <p class="card-caption">Conheça meus trabalhos e o que estou aprendendo.</p>
+            </article>
+        </section>
+
+        <section class="steps" aria-label="Como funciona">
+            <div class="step">
+                <h2>01 / Conte sua história</h2>
+                <p>Apresente quem você é e seus interesses.</p>
+            </div>
+            
+            <div class="step">
+                <h2>02 / Mostre seu trabalho</h2>
+                <p>Adicione projetos e habilidades.</p>
+            </div>
+            
+            <div class="step">
+                <h2>03 / Veja tudo pronto</h2>
+                <p>Visualize e ajuste seu portfólio.</p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
