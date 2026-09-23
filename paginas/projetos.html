@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Adicione e gerencie os projetos do seu portfólio."
+    >
+
+    <title>Projetos - Criar Portfólio</title>
+
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    
+    <link rel="stylesheet" href="../css/forms.css">
+    
+    <link rel="stylesheet" href="../css/projetos.css">
+
+    <script src="../js/projetos.js" defer></script>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            folio<span>.</span>
+        </div>
+
+        <nav class="header-nav">
+            <a href="index.html">Início</a>
+
+            <a
+                href="sobre-voce.html"
+                class="btn-header"
+            >
+                Criar portfólio
+            </a>
+
+            <a href="visualizar.html">
+                Visualizar
+            </a>
+        </nav>
+    </header>
+
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <h2>
+                Seu espaço de criação
+            </h2>
+
+            <h1>
+                Vamos montar seu portfólio
+            </h1>
+
+            <p>
+                Uma etapa de cada vez, do seu jeito.
+            </p>
+
+        </div>
+
+
+        <main class="main-content">
+
+            <aside class="sidebar">
+
+                <a
+                    href="sobre-voce.html"
+                    class="step"
+                >
+                    01 · Sobre você
+                </a>
+
+                <a
+                    href="projetos.html"
+                    class="step active"
+                    aria-current="step"
+                >
+                    02 · Projetos
+                </a>
+
+                <a
+                    href="habilidades.html"
+                    class="step"
+                >
+                    03 · Habilidades
+                </a>
+
+            </aside>
+
+
+            <section class="card">
+
+                <h3>
+                    Seus projetos
+                </h3>
+
+                <p>
+                    Trabalhos da faculdade também contam.
+                    Mostre o que você construiu.
+                </p>
+
+
+                <p
+                    id="empty-projects"
+                    class="empty-projects"
+                    aria-live="polite"
+                >
+                    Nenhum projeto cadastrado ainda.
+                    Clique em “Adicionar projeto” para começar.
+                </p>
+
+
+                <form
+                    id="projects-form"
+                    novalidate
+                >
+
+                    <div id="projects-list"></div>
+
+
+                    <button
+                        id="add-project"
+                        type="button"
+                        class="btn-outline add-project"
+                    >
+                        + Adicionar projeto
+                    </button>
+
+
+                    <div class="card-footer">
+
+                        <button
+                            id="back-button"
+                            type="button"
+                            class="btn-outline"
+                        >
+                            ← Voltar
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                        >
+                            Continuar →
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

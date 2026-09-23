@@ -1,0 +1,162 @@
+.empty-projects {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-style: italic;
+
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+
+    background-color: var(--bg-color);
+
+    border: 1px dashed var(--border-color);
+    border-radius: 0.375rem;
+}
+
+/* Projeto individual */
+
+.project-item {
+    padding: 0 0 1.75rem;
+    margin-bottom: 1.75rem;
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Evita espaço desnecessário depois do último projeto*/
+
+.project-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Campos */
+
+.project-field {
+    margin-bottom: 1.5rem;
+}
+
+
+.project-field label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* Mesmo padrão visual dos campos das páginas Sobre você e Habilidades.*/
+
+.project-field input,
+.project-field textarea {
+    width: 100%;
+
+    padding: 0.75rem;
+
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+
+    background-color: #fff;
+
+    color: var(--text-dark);
+
+    font-family: var(--font-family);
+    font-size: 1rem;
+
+    outline: none;
+
+    transition: border-color 0.2s;
+}
+
+.project-field textarea {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+/* Foco */
+
+.project-field input:focus,
+.project-field textarea:focus {
+    border-color: var(--primary-color);
+}
+
+/* Campo inválido */
+
+.project-field input[aria-invalid="true"],
+.project-field textarea[aria-invalid="true"] {
+    border-color: var(--error-color);
+}
+
+/* Mensagens de erro */
+
+.project-field .error-message {
+    color: var(--error-color);
+
+    font-size: 0.875rem;
+
+    margin-top: 0.5rem;
+
+    min-height: 20px;
+}
+
+/* Adicionar projeto*/
+
+.add-project {
+    margin-top: 0.25rem;
+}
+
+/* Remover projeto */
+
+.remove-project {
+    background: transparent;
+
+    border: 1px solid #fca5a5;
+    border-radius: 0.375rem;
+
+    color: var(--error-color);
+
+    padding: 0.75rem 1.5rem;
+
+    cursor: pointer;
+
+    font-size: 1rem;
+
+    transition:
+        background-color 0.2s,
+        border-color 0.2s;
+}
+
+.remove-project:hover {
+    background-color: #fef2f2;
+    border-color: var(--error-color);
+}
+
+/* Acessibilidade */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Celular */
+
+@media (max-width: 768px) {
+
+    .remove-project {
+        width: 100%;
+
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    .add-project {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+}
