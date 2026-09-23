@@ -50,7 +50,7 @@ function loadProjects() {
         return [];
     }
 
-    return portfolio.projetos.map((project) => ({
+    return portfolio.projetos.filter(project => project && typeof project === "object").map((project) => ({
         nome:
             typeof project.nome === "string"
                 ? project.nome
