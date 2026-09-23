@@ -1,12 +1,12 @@
 :root {
-    --primary-color: #5b21b6;
-    --primary-light: #ede9fe;
-    --text-dark: #1f2937;
-    --text-muted: #6b7280;
-    --border-color: #e5e7eb;
-    --bg-color: #f9fafb;
-    --error-color: #dc2626;
-    --font-family: system-ui, -apple-system, sans-serif;
+    --primary-color: #eb7311;
+    --primary-light: #f0eafa;
+    --text-dark: #292238;
+    --text-muted: #686174;
+    --border-color: #dfece1;
+    --bg-color: #f7f8fb;
+    --error-color: #bb0a13;
+    --font-family: Arial, Helvetica, sans-serif;
 }
 
 * {
@@ -25,28 +25,37 @@ body {
 header {
     background-color: #fff;
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem 2rem;
+    min-height: 87px;
+    padding: 18px 26px;
+    gap: 20px;
+    flex-wrap: wrap;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .logo {
-    font-weight: bold;
-    font-size: 1.5rem;
+    font: 700 25px Georgia, serif;
+    letter-spacing: -1px;
 }
 
 .logo span {
-    color: #06b6d4;
+    color: #23abaf;
 }
 
 .header-nav {
     display: flex;
-    gap: 1.5rem;
+    gap: 8px;
+    flex-wrap: wrap;
     align-items: center;
 }
 
 .header-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 11px 17px;
+    border-radius: 10px;
     text-decoration: none;
     color: var(--text-dark);
 }
@@ -60,6 +69,7 @@ header {
 }
 
 .container {
+    width: 100%;
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1rem;
@@ -88,7 +98,7 @@ header {
 
 .main-content {
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 200px minmax(0, 1fr);
     gap: 2rem;
     align-items: start;
 }
@@ -113,6 +123,7 @@ header {
 }
 
 .card {
+    min-width: 0;
     background-color: #fff;
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
@@ -141,7 +152,9 @@ label {
     font-size: 0.875rem;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="url"],
+textarea {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid var(--border-color);
@@ -250,16 +263,59 @@ input[type="text"]:focus {
 }
 
 .btn-primary:hover {
-    background-color: #4c1d95;
+    background-color: #a44f10;
+}
+
+/* Organização dos campos da página Sobre você. */
+.profile-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.profile-fields .input-group {
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.input-group-wide {
+    grid-column: 1 / -1;
+}
+
+.profile-fields textarea {
+    font: inherit;
+    resize: vertical;
+}
+
+.profile-fields .error-message:empty {
+    display: none;
+}
+
+#profile-form .card-footer {
+    margin-top: 1.5rem;
 }
 
 @media (max-width: 768px) {
+    .profile-fields {
+        grid-template-columns: 1fr;
+    }
+
     .main-content {
         grid-template-columns: 1fr;
     }
 
+    header {
+        padding: 16px;
+        gap: 12px;
+    }
+
     .header-nav {
-        display: none;
+        gap: 2px;
+    }
+
+    .header-nav a {
+        padding: 10px;
+        font-size: 14px;
     }
 
     .card-footer {
