@@ -31,49 +31,52 @@
             <aside class="sidebar">
                 <a href="sobre-voce.html" class="step active">01 · Sobre você</a>
                 <a href="projetos.html" class="step">02 · Projetos</a>
-                <a href="#" class="step">03 · Habilidades</a>
+                <a href="habilidades.html" class="step">03 · Habilidades</a>
             </aside>
 
-            <section class="card">
+            <form id="profile-form" class="card">
                 <h3>Sobre você</h3>
                 <p>Apresente-se a quem vai conhecer seu trabalho</p>
 
+                <div class="profile-fields">
                 <div class="input-group">
-                    <label for="skillInput">Nome Completo*</label>
-                    <input type="text" id="skillInput" placeholder="Ex.: João da Silva" aria-describedby="errorMsg">
-                    <div id="errorMsg" class="error-message"></div>
+                    <label for="nome">Nome Completo*</label>
+                    <input required type="text" id="nome" placeholder="Ex.: João da Silva" aria-describedby="nomeError">
+                    <div id="nomeError" class="error-message"></div>
                 </div>
                 <div class="input-group">
-                    <label for="skillInput">Titulo Profissional</label>
-                    <input type="text" id="skillInput" placeholder="Ex.: Desenvolvedor Web" aria-describedby="errorMsg">
-                    <div id="errorMsg" class="error-message"></div>
+                    <label for="profissao">Titulo Profissional</label>
+                    <input type="text" id="profissao" placeholder="Ex.: Desenvolvedor Web" aria-describedby="profissaoError">
+                    <div id="profissaoError" class="error-message"></div>
+                </div>
+                <div class="input-group input-group-wide">
+                    <label for="bio">Apresentação</label>
+                    <textarea id="bio" rows="4" placeholder="Ex.: Desenvolvedor web com 5 anos de experiência em desenvolvimento de aplicações web." aria-describedby="bioError"></textarea>
+                    <div id="bioError" class="error-message"></div>
                 </div>
                 <div class="input-group">
-                    <label for="skillInput">Apresentação</label>
-                    <input type="text" id="skillInput" placeholder="Ex.: Desenvolvedor web com 5 anos de experiência em desenvolvimento de aplicações web." aria-describedby="errorMsg">
-                    <div id="errorMsg" class="error-message"></div>
+                    <label for="email">Email*</label>
+                    <input required type="email" id="email" placeholder="Ex.: joao.silva@example.com" aria-describedby="emailError">
+                    <div id="emailError" class="error-message"></div>
                 </div>
                 <div class="input-group">
-                    <label for="skillInput">Email*</label>
-                    <input type="email" id="skillInput" placeholder="Ex.: joao.silva@example.com" aria-describedby="errorMsg">
-                    <div id="errorMsg" class="error-message"></div>
-                </div>
-                <div class="input-group">
-                    <label for="skillInput">Link Profissional</label>
-                    <input type="text" id="skillInput" placeholder="Ex.: https://github.com/usuario" aria-describedby="errorMsg">
-                    <div id="errorMsg" class="error-message"></div>
+                    <label for="link">Link Profissional</label>
+                    <input type="url" id="link" placeholder="Ex.: https://github.com/usuario" aria-describedby="linkError">
+                    <div id="linkError" class="error-message"></div>
                 </div>
         
+                </div>
+
                 <div class="card-footer">
                     <button type="button" id="btnBack" class="btn-outline">← Voltar ao início</button>
-                    <button type="button" id="btnFinish" class="btn-primary">Continuar →</button>
+                    <button type="submit" id="btnFinish" class="btn-primary">Continuar →</button>
                 </div>
-            </section>
+            </form>
         </main>
     </div>
 
     <!-- Referência ao JS na pasta correspondente -->
-    <script src="../js/habilidades.js"></script>
+    <script src="../js/sobre-voce.js"></script>
 </body>
 
 </html>
