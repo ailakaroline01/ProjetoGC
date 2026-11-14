@@ -406,3 +406,62 @@ main {
 .portfolio-card {
     overflow-wrap: anywhere;
 }
+
+
+/* =========================
+   EXPORTAÇÃO
+   ========================= */
+
+.export-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.export-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.export-actions .button {
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.export-actions .button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+
+/* =========================
+   IMPRESSÃO (PDF)
+   ========================= */
+
+@media print {
+
+    .header,
+    .preview-header,
+    .export-section,
+    .footer {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff;
+    }
+
+    main {
+        width: auto;
+        padding: 0;
+    }
+
+    .portfolio-card {
+        width: 100%;
+        border: 1px solid #dfece1;
+        border-top: 4px solid #1fa9b3;
+    }
+}
