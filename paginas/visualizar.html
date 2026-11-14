@@ -8,7 +8,6 @@
     <title>Visualizar Portfólio</title>
 
     <link rel="stylesheet" href="../css/visualizar.css">
-    <link rel="stylesheet" href="../css/visualizar.css">
 </head>
 
 <body>
@@ -182,11 +181,28 @@
         </section>
 
 
-        <!-- Mensagem inferior -->
-        <p class="footer-message">
-            PDF e compartilhamento por link estarão disponíveis
-            em uma próxima versão.
-        </p>
+        <!-- Exportação -->
+        <section class="export-section">
+
+            <div class="export-actions">
+
+                <button type="button" class="button" id="exportar-link">
+                    Copiar link
+                </button>
+
+                <button type="button" class="button" id="exportar-pdf">
+                    Baixar PDF
+                </button>
+
+                <button type="button" class="button" id="exportar-png">
+                    Baixar PNG
+                </button>
+
+            </div>
+
+            <p class="footer-message" id="mensagem-exportacao" role="status"></p>
+
+        </section>
 
     </main>
 
@@ -203,6 +219,8 @@
     </footer>
 
 
+    <!-- Biblioteca usada na exportação em PNG -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="../js/visualizar.js"></script>
 
 </body>
