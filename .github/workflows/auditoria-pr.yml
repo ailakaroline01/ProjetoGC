@@ -1,0 +1,33 @@
+# Auditoria automatizada de Pull Requests (controle de mudança)
+# A cada PR aberto/editado/atualizado/revisado, verifica se o processo do PGC foi seguido
+# e publica o resultado como comentário no PR, labels e resumo da execução.
+# Não conformidades (❌) reprovam este check e, com branch protection, bloqueiam o merge.
+name: Auditoria de PR
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+concurrency:
+  group: auditoria-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  auditoria:
+    name: Auditoria de configuração
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auditar Pull Request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { executar } = require('./.github/scripts/auditoria-pr.cjs');
+            await executar({ github, context, core });
