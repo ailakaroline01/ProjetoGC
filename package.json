@@ -1,0 +1,31 @@
+{
+  "name": "folio",
+  "version": "1.0.1",
+  "description": "Folio - Sistema de Portfólios",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
+    "lint:html": "htmlhint \"paginas/**/*.html\"",
+    "lint:css": "stylelint \"css/**/*.css\"",
+    "lint:js": "eslint .",
+    "test": "vitest run",
+    "test:ci": "vitest run --reporter=default --reporter=junit --outputFile.junit=reports/junit.xml",
+    "build": "node scripts/build.mjs",
+    "ci": "npm run lint && npm test && npm run build",
+    "auditoria:historico": "node scripts/auditoria-historico.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "htmlhint": "^1.9.2",
+    "jsdom": "^31.0.1",
+    "stylelint": "^16.26.1",
+    "stylelint-config-recommended": "^14.0.1",
+    "vitest": "^3.2.7"
+  }
+}

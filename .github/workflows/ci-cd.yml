@@ -1,0 +1,193 @@
+# Pipeline de CI/CD do Folio
+#
+#   lint ─┐
+#         ├─► build ─► deploy (Vercel) ─► release (somente main)
+#   test ─┘
+#
+# • Pull Request  → CI: lint + testes + build (valida a mudança antes do merge)
+# • Push develop  → CI + deploy no ambiente "development" (Preview na Vercel)
+# • Push release  → CI + deploy no ambiente "release"     (Preview na Vercel)
+# • Push main     → CI + deploy em "production" + tag vX.Y.Z + GitHub Release
+#
+# Nenhum deploy acontece se lint, testes ou build falharem.
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [develop, release, main]
+  push:
+    branches: [develop, release, main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  # PRs: cancela execuções antigas. Branches de ambiente: deploys rodam em fila.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  VERCEL_CLI_VERSION: 65.9.0
+
+jobs:
+  # ───────────────────────────── CI ─────────────────────────────
+  lint:
+    name: Lint (HTML, CSS, JS)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: HTML
+        run: npm run lint:html
+      - name: CSS
+        run: npm run lint:css
+      - name: JavaScript
+        run: npm run lint:js
+
+  test:
+    name: Testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Executar testes
+        run: npm run test:ci
+      - name: Armazenar relatório de testes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-testes
+          path: reports/
+          retention-days: 30
+      - name: Resumo dos testes
+        if: always()
+        run: |
+          node -e '
+            const xml = require("fs").readFileSync("reports/junit.xml", "utf8");
+            const attr = n => Number((xml.match(new RegExp(`<testsuites[^>]*\\b${n}="(\\d+)"`)) || [])[1] || 0);
+            const total = attr("tests"), falhas = attr("failures") + attr("errors");
+            console.log(`## 🧪 Testes\n\n| Total | Passaram | Falharam |\n|---|---|---|\n| ${total} | ${total - falhas} | ${falhas} |`);
+          ' >> "$GITHUB_STEP_SUMMARY"
+
+  build:
+    name: Build
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Gerar build
+        run: npm run build
+      - name: Armazenar build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: dist/
+          retention-days: 14
+      - name: Resumo do build
+        run: |
+          {
+            echo "## 📦 Build"
+            echo '```json'
+            cat dist/version.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ───────────────────────────── CD ─────────────────────────────
+  deploy:
+    name: Deploy (Vercel)
+    needs: build
+    if: github.event_name != 'pull_request' && contains(fromJSON('["develop","release","main"]'), github.ref_name)
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'release' && 'release' || 'development' }}
+      url: ${{ steps.publicar.outputs.url }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TARGET: ${{ github.ref_name == 'main' && 'production' || 'preview' }}
+      PROD_FLAG: ${{ github.ref_name == 'main' && '--prod' || '' }}
+      # Domínio fixo opcional por ambiente (ex.: folio-develop.vercel.app), definido em Variables do environment
+      ALIAS: ${{ vars.VERCEL_ALIAS }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Verificar credenciais da Vercel
+        run: |
+          for v in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            if [ -z "${!v}" ]; then
+              echo "::error::Secret $v não configurado (Settings → Secrets and variables → Actions)."
+              exit 1
+            fi
+          done
+      - name: Instalar Vercel CLI
+        run: npm install --global vercel@${VERCEL_CLI_VERSION}
+      - name: Baixar configuração do ambiente
+        run: vercel pull --yes --environment=$VERCEL_TARGET --token=$VERCEL_TOKEN
+      - name: Build para a Vercel
+        run: vercel build $PROD_FLAG --token=$VERCEL_TOKEN
+      - name: Publicar
+        id: publicar
+        run: |
+          url=$(vercel deploy --prebuilt $PROD_FLAG --token=$VERCEL_TOKEN)
+          if [ -n "$ALIAS" ]; then
+            vercel alias set "$url" "$ALIAS" --token=$VERCEL_TOKEN
+            url="https://$ALIAS"
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          {
+            echo "## 🚀 Deploy"
+            echo "| Ambiente | Branch | Commit | URL |"
+            echo "|---|---|---|---|"
+            echo "| ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'release' && 'release' || 'development' }} | \`${{ github.ref_name }}\` | \`${GITHUB_SHA::7}\` | $url |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ─────────────────────── Geração de versão ───────────────────────
+  release:
+    name: Gerar versão (tag + GitHub Release)
+    needs: deploy
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Criar tag e release a partir do package.json e do CHANGELOG
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          versao=$(node -p "require('./package.json').version")
+          tag="v$versao"
+          if git rev-parse "$tag" >/dev/null 2>&1; then
+            echo "::notice::A tag $tag já existe — nenhuma nova versão gerada."
+            exit 0
+          fi
+          # Notas da versão = seção "## [X.Y.Z]" do CHANGELOG.md
+          awk -v v="$versao" '
+            $0 ~ "^## \\[" v "\\]" { dentro=1; next }
+            dentro && /^## \[/      { exit }
+            dentro                  { print }
+          ' CHANGELOG.md > notas.md
+          git tag -a "$tag" -m "Release $tag"
+          git push origin "$tag"
+          gh release create "$tag" --title "Folio $tag" --notes-file notas.md --generate-notes --latest
+          echo "## 🏷️ Versão $tag publicada" >> "$GITHUB_STEP_SUMMARY"
