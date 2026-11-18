@@ -93,7 +93,9 @@ function referenciaIssue(texto) {
 /** Checkboxes da seção "Auditoria de Configuração" do template. */
 function checklistAuditoria(corpo) {
     const texto = semComentarios(corpo);
-    const inicio = texto.search(/Auditoria de Configura/i);
+    // Procura o TÍTULO da seção (ex.: "### 🔎 Auditoria de Configuração – Checklist"),
+    // para não contar checkboxes de outras seções que apenas citam a palavra "auditoria".
+    const inicio = texto.search(/^#{1,6}[^\n]*Auditoria de Configura/im);
     if (inicio === -1) return { total: 0, marcados: 0 };
     const secao = texto.slice(inicio);
     const itens = secao.match(/^\s*[-*]\s*\[[ xX]\]/gm) || [];

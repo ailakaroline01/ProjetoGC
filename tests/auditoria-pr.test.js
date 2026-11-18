@@ -91,6 +91,13 @@ describe('Auditoria completa', () => {
         expect(item.detalhe).toContain('1234567');
     });
 
+    it('conta apenas os itens da seção de checklist, não os do "Como testar"', () => {
+        const comoTestar = '## 🧪 Como testar\n- [ ] Check `Auditoria de configuração` verde\n- [ ] Deploy após o merge\n';
+        const corpo = prValido.corpo.replace('## 🧪 Como testar', comoTestar);
+        expect(regras.checklistAuditoria(corpo)).toEqual({ total: 6, marcados: 6 });
+        expect(status(regras.auditar({ ...prValido, corpo }), 'Checklist de auditoria')).toBe('ok');
+    });
+
     it('avisa quando o CHANGELOG não foi atualizado', () => {
         const r = regras.auditar({ ...prValido, arquivos: ['js/visualizar.js'] });
         expect(status(r, 'CHANGELOG')).toBe('aviso');
