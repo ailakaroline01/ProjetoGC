@@ -108,7 +108,7 @@ jobs:
 
   # ───────────────────────────── CD ─────────────────────────────
   deploy:
-    name: Deploy → ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'release' && 'release' || 'development' }}
+    name: Deploy (Vercel)
     needs: build
     if: github.event_name != 'pull_request' && contains(fromJSON('["develop","release","main"]'), github.ref_name)
     runs-on: ubuntu-latest
