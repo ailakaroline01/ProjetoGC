@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "git": {
+    "deploymentEnabled": false
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/paginas/index.html" },
+    { "source": "/:pagina.html", "destination": "/paginas/:pagina.html" }
+  ]
+}
