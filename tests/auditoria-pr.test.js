@@ -6,7 +6,9 @@ import { describe, expect, it } from 'vitest';
 const require = createRequire(import.meta.url);
 const regras = require('../.github/scripts/auditoria-pr.cjs');
 
-const TEMPLATE = readFileSync(new URL('../.github/pull_request_template.md', import.meta.url), 'utf-8');
+// Normaliza CRLF (Windows) para LF, para os testes rodarem igual em qualquer sistema
+const TEMPLATE = readFileSync(new URL('../.github/pull_request_template.md', import.meta.url), 'utf-8')
+    .replace(/\r\n/g, '\n');
 
 const prValido = {
     origem: 'feature/exportar-pdf',

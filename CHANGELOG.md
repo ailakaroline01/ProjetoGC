@@ -24,6 +24,7 @@ e o projeto adota [Versionamento Semântico](https://semver.org/lang/pt-BR/) (`M
 
 ### Corrigido
 - Seletor `.portfolio-card` duplicado em `css/visualizar.css`, encontrado pelo lint de CSS (#17).
+- Testes da auditoria de PR falhando no Windows por quebra de linha CRLF (#19).
 
 ## [1.0.1] - 2026-11-14
 
