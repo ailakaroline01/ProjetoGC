@@ -126,6 +126,7 @@ main {
 
 .portfolio-card {
     width: min(100%, 720px);
+    overflow-wrap: anywhere;
     margin: 0 auto;
 
     padding: 24px;
@@ -401,10 +402,6 @@ main {
 }
 [hidden] {
     display: none !important;
-}
-
-.portfolio-card {
-    overflow-wrap: anywhere;
 }
 
 
