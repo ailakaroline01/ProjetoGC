@@ -53,9 +53,51 @@
                 </p>
             </div>
 
-            <a href="sobre-voce.html" class="button">
-                Editar portfólio
-            </a>
+            <div class="preview-actions">
+
+                <div class="theme-selector">
+
+                    <button
+                        type="button"
+                        class="button"
+                        id="btnSelecionarCor"
+                        aria-expanded="false"
+                        aria-controls="opcoesTema"
+                    >
+                        Selecionar cor
+                    </button>
+
+                    <div id="opcoesTema" class="theme-options" hidden>
+
+                        <button type="button" data-tema="original" aria-label="Tema original" aria-pressed="true">
+                            <span class="theme-color original"></span>
+                        </button>
+
+                        <button type="button" data-tema="roxo" aria-label="Tema roxo" aria-pressed="false">
+                            <span class="theme-color roxo"></span>
+                        </button>
+
+                        <button type="button" data-tema="vermelho" aria-label="Tema vermelho" aria-pressed="false">
+                            <span class="theme-color vermelho"></span>
+                        </button>
+
+                        <button type="button" data-tema="amarelo" aria-label="Tema amarelo" aria-pressed="false">
+                            <span class="theme-color amarelo"></span>
+                        </button>
+
+                        <button type="button" data-tema="verde" aria-label="Tema verde" aria-pressed="false">
+                            <span class="theme-color verde"></span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+    <a href="sobre-voce.html" class="button">
+        Editar portfólio
+    </a>
+
+</div>
 
         </section>
 
