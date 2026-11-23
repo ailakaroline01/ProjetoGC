@@ -11,6 +11,8 @@ e o projeto adota [Versionamento Semântico](https://semver.org/lang/pt-BR/) (`M
 
 ## [Não lançado]
 
+## [1.1.0] - 2026-11-22
+
 ### Adicionado
 - Pipeline de CI/CD no GitHub Actions: lint, testes, build, deploy na Vercel por ambiente e geração de versão (#17).
 - Auditoria automatizada de Pull Requests (branch, commits, descrição, issue, CHANGELOG, versão, revisão) (#17).
