@@ -5,13 +5,14 @@ O Folio é um site para criar portfólios de forma simples. O usuário pode pree
 
 ## Funcionalidades do MVP
 
-Esta primeira versão é um **MVP** e inclui:
+Este site inclui:
 
 - Página inicial com apresentação do sistema.
 - Formulário com nome, apresentação e informações de contato.
 - Cadastro, edição e remoção de projetos.
 - Inclusão e remoção de habilidades.
 - Visualização do portfólio e de um exemplo pronto.
+- Exportação por pdf, link ou png do portfólio.
 
 Os dados serão salvos no próprio navegador, utilizando `localStorage`. Não haverá login ou banco de dados no momento.
 
@@ -54,13 +55,10 @@ npm run auditoria:historico  # auditoria retroativa dos commits
 
 O usuário segue o fluxo:
 
-**Início → Sobre você → Projetos → Habilidades → Visualizar**
+**Início → Sobre você → Projetos → Habilidades → Visualizar → Exportar**
 
 Após preencher as informações, poderá visualizar o resultado e voltar para editar. A página inicial também permitirá conhecer um portfólio de exemplo.
 
-## Próximas versões
-
-Futuramente, o sistema poderá permitir a exportação do portfólio em PDF e o compartilhamento por link. Essas funcionalidades não fazem parte do MVP.
 
 ### Desenvolvedores:
 - Aila Karoline Santana Moreira

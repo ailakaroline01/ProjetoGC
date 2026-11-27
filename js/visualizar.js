@@ -9,6 +9,121 @@ const params = new URLSearchParams(window.location.search);
 const modoExemplo = params.get("exemplo") === "true";
 
 
+// ================================
+// PERSONALIZAÇÃO DE CORES
+// ================================
+
+const temas = {
+    original: {
+        principal: "#1fa9b3",
+        fundoDestaque: "#e6f7f8",
+        fundoSecundario: "#e4f6f8",
+        textoDestaque: "#167a83",
+        acento: "#c76719",
+        fundoHabilidade: "#e5f5f7",
+        textoHabilidade: "#216f77"
+    },
+
+    roxo: {
+        principal: "#4c114b",
+        fundoDestaque: "#eee0fa",
+        fundoSecundario: "#eee0fa",
+        textoDestaque: "#4c114b",
+        acento: "#4c114b",
+        fundoHabilidade: "#eee0fa",
+        textoHabilidade: "#4c114b"
+    },
+
+    vermelho: {
+        principal: "#890149",
+        fundoDestaque: "#f3f3e7",
+        fundoSecundario: "#f3f3e7",
+        textoDestaque: "#890149",
+        acento: "#890149",
+        fundoHabilidade: "#f3f3e7",
+        textoHabilidade: "#890149"
+    },
+
+    amarelo: {
+        principal: "#ffbe00",
+        fundoDestaque: "#fff4cc",
+        fundoSecundario: "#fff4cc",
+        textoDestaque: "#765000",
+        acento: "#765000",
+        fundoHabilidade: "#fff4cc",
+        textoHabilidade: "#765000"
+    },
+
+    verde: {
+        principal: "#01c063",
+        fundoDestaque: "#e5ffc2",
+        fundoSecundario: "#e5ffc2",
+        textoDestaque: "#08783f",
+        acento: "#08783f",
+        fundoHabilidade: "#e5ffc2",
+        textoHabilidade: "#08783f"
+    }
+};
+
+function aplicarTema(nomeTema) {
+    const tema = temas[nomeTema];
+
+    if (!tema) return;
+
+    const raiz = document.documentElement;
+
+    raiz.style.setProperty("--cor-principal", tema.principal);
+    raiz.style.setProperty("--cor-fundo-destaque", tema.fundoDestaque);
+    raiz.style.setProperty("--cor-fundo-secundario", tema.fundoSecundario);
+    raiz.style.setProperty("--cor-texto-destaque", tema.textoDestaque);
+    raiz.style.setProperty("--cor-acento", tema.acento);
+    raiz.style.setProperty("--cor-habilidade", tema.fundoHabilidade);
+    raiz.style.setProperty("--cor-texto-habilidade", tema.textoHabilidade);
+
+    document.querySelectorAll("[data-tema]").forEach(botao => {
+        const selecionado = botao.dataset.tema === nomeTema;
+
+        botao.classList.toggle("selecionado", selecionado);
+        botao.setAttribute("aria-pressed", String(selecionado));
+    });
+}
+
+const btnSelecionarCor = document.getElementById("btnSelecionarCor");
+const opcoesTema = document.getElementById("opcoesTema");
+
+const botoesTema = document.querySelectorAll("[data-tema]");
+
+// Abre e fecha o seletor
+btnSelecionarCor.addEventListener("click", () => {
+    const fechado = opcoesTema.hidden;
+
+    opcoesTema.hidden = !fechado;
+
+    btnSelecionarCor.setAttribute("aria-expanded", String(fechado));
+});
+
+// Aplica o tema selecionado
+botoesTema.forEach(botao => {
+    botao.addEventListener("click", () => {
+        const nomeTema = botao.dataset.tema;
+
+        aplicarTema(nomeTema);
+
+        localStorage.setItem("folio-tema", nomeTema);
+
+        opcoesTema.hidden = true;
+        btnSelecionarCor.setAttribute("aria-expanded", "false");
+    });
+});
+
+// Recupera a última paleta selecionada
+const temaSalvo = localStorage.getItem("folio-tema");
+
+const temaInicial = temas[temaSalvo] ? temaSalvo : "original";
+
+aplicarTema(temaInicial);
+
+
 // Dados de exemplo
 const dadosExemplo = {
 
@@ -64,7 +179,19 @@ if (typeof portfolio !== 'object' || Array.isArray(portfolio)) portfolio = {};
 const dadosCompartilhados = decodificarDados(params.get('dados'));
 const modoCompartilhado = Boolean(dadosCompartilhados);
 
-if (modoCompartilhado) document.querySelector('.preview-header .button').hidden = true;
+// Recupera o tema enviado pelo link compartilhado.
+if (modoCompartilhado) {
+    const temaCompartilhado = params.get('tema');
+
+    aplicarTema(
+        temas[temaCompartilhado] ? temaCompartilhado : 'original'
+    );
+}
+
+if (modoCompartilhado) {
+    document.querySelector('.preview-actions > a.button').hidden = true;
+    document.querySelector('.theme-selector').hidden = true;
+}
 
 const dados = dadosCompartilhados || (modoExemplo ? dadosExemplo : portfolio);
 const texto = value => typeof value === 'string' ? value : '';
@@ -201,6 +328,12 @@ botaoExportarLink.addEventListener('click', async () => {
         const url = new URL(window.location.href);
         url.searchParams.delete('exemplo');
         url.searchParams.set('dados', codificarDados(dados));
+        url.searchParams.set(
+            'tema',
+            temas[localStorage.getItem('folio-tema')]
+                ? localStorage.getItem('folio-tema')
+                : 'original'
+        );
         if (url.href.length > 6000) {
             mostrarMensagem('O portfólio é grande demais para um link. Use PDF ou PNG.');
             return;
